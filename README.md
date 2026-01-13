@@ -1,60 +1,58 @@
-# VancoSafe-PK: Clinical Decision Support Engine
+# 💊 PrecisionDose-AI: Clinical PK/PD Simulation & Risk Engine
 
-## 🏥 The Problem: The Vancomycin Paradox
-Vancomycin is a critical "last-line" antibiotic for MRSA, but it possesses a **Narrow Therapeutic Index**. 
-* **The Stakes:** Over-dosing leads to permanent **Acute Kidney Injury (AKI)** in 10% of patients. 
-* **The Complexity:** Standard linear dosing fails to account for fluctuating **Renal Clearance ($CrCl$)** in elderly or obese populations.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![ML-Safety-Guard](https://img.shields.io/badge/Safety--Guard-Random--Forest-red)](https://scikit-learn.org/)
 
-## 🚀 Project Overview
-VancoSafe-PK is a hybrid software framework that combines **First-Principles Pharmacokinetics** with **Machine Learning** to provide a predictive "Safety Guard" for clinical dosing.
-
-### Key Technical Pillars:
-1. **Numerical ODE Solver:** Implements an Euler-method integration to solve the differential equation $dC/dt = -k_e \cdot C$, simulating drug accumulation over 72-hour multi-dose cycles.
-2. **ML Safety Guard:** A Random Forest Classifier trained on 2,000 synthetic patient profiles to identify high-risk physiological patterns that lead to toxicity.
-3. **Clinical Visualization:** Real-time serum concentration graphing with automated flagging of toxic troughs.
+### **Bridging the gap between First-Principles Physics and Machine Learning to prevent Acute Kidney Injury (AKI).**
 
 ---
 
-## 🛠️ Architecture
+## 🏥 The Clinical Problem: The Vancomycin Paradox
+Vancomycin is a life-saving antibiotic, but it possesses a **Narrow Therapeutic Index**. 
 
-### 1. Physiological Engine (`core/physiology.py`)
-Calculates the **Cockcroft-Gault** creatinine clearance and derives the elimination constant ($k_e$) and Volume of Distribution ($V_d$).
-
-### 2. Numerical Simulator (`core/solver.py`)
-Instead of static formulas, the engine uses a time-stepped simulation to account for multiple doses and drug "stacking" effects.
-
-
-### 3. Predictive Analytics (`ml/guard.py`)
-Uses `Scikit-Learn` to analyze the non-linear relationship between patient age, weight, and serum creatinine to predict AKI probability.
-
-
-
+* **The Stakes:** Over-dosing leads to permanent **Acute Kidney Injury (AKI)**.
+* **The Complexity:** Standard linear dosing fails to account for fluctuating **Renal Clearance ($CrCl$)** in elderly or high-risk populations.
 
 ---
 
-## 📊 Sample Output
-When a dose is simulated for a high-risk patient (e.g., Age 80+, Creatinine > 2.0), the engine flags the simulation in **RED**, warning the clinician of a predicted "Toxic Trough."
+## 🚀 Technical Pillars
 
+### 1. **Numerical ODE Solver (The Physics Engine)**
+Instead of using static peak/trough formulas, this engine implements a **Numerical Integrator** to solve the differential equation:
+$$dC/dt = -k_e \cdot C$$
+* **Multi-Dose Simulation:** Models drug "stacking" effects over 48-hour cycles.
+* **Time-Stepped Integration:** Accounts for dose administration intervals to capture real-time accumulation.
 
+### 2. **ML Safety Guard (The Intelligence)**
+A **Random Forest Classifier** trained on 2,000 synthetic patient profiles.
+* **Predictive Analytics:** Analyzes the non-linear relationship between age, weight, and serum creatinine.
+* **Risk Stratification:** Predicts AKI probability before the first dose is administered.
+
+### 3. **Physiological Modeling**
+* **Creatinine Clearance:** Implements the **Cockcroft-Gault** equation to estimate renal function.
+* **Pharmacokinetic Derivation:** Dynamically calculates the elimination constant ($k_e$) and Volume of Distribution ($V_d$) based on patient-specific physiology.
 
 ---
 
-## 💻 Installation & Usage
+## 📊 Comparative Analysis
 
-1. **Clone the repo:**
-   ```bash
-   git clone [https://github.com/yourusername/VancoSafe-PK.git](https://github.com/yourusername/VancoSafe-PK.git)
+| **High-Risk Scenario (Elderly/Renal Impairment)** | **Low-Risk Scenario (Healthy Adult)** |
+| :--- | :--- |
+| ![Toxic Profile](assets/toxic_accumulation_profile.png) | ![Healthy Profile](assets/therapeutic_steady_state.png) |
+| **Status:** Flagged RED (Toxic Accumulation) | **Status:** Flagged BLUE (Therapeutic) |
+| **Risk Score:** 100% | **Risk Score:** ~2% |
 
-2. **Install Dependancies**
-pip install -r requirements.txt
+---
 
-3. **Run a Simulation**
- python main.py
-
- 4. **The Final "Pro" Step: The `requirements.txt`**
-Create a file named `requirements.txt` in the main folder and add this:
+## 🛠️ Project Architecture
 ```text
-numpy>=1.20.0
-pandas>=1.3.0
-scikit-learn>=1.0.0
-matplotlib>=3.4.0
+PrecisionDose-AI/
+├── main.py              # Entry point & simulation orchestrator
+├── core/                # Physics & Physiology Module
+│   ├── __init__.py
+│   ├── physiology.py    # Renal function & PK parameters
+│   └── solver.py        # Numerical ODE solver
+├── ml/                  # Machine Learning Module
+│   ├── __init__.py
+│   └── guard.py         # RandomForest AKI Risk Classifier
+└── assets/              # Simulation visualizations
