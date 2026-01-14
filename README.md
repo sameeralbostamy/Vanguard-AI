@@ -43,6 +43,15 @@ A **Random Forest Classifier** trained on 2,000 synthetic patient profiles.
 | **Risk Score:** 100% | **Risk Score:** ~2% |
 
 ---
+### 1. Environment Setup
+Clone the repository and enter the directory:
+```bash
+git clone [https://github.com/sameeralbostamy/PrecisionDose-AI.git](https://github.com/sameeralbostamy/PrecisionDose-AI.git)
+cd PrecisionDose-AI
+
+pip install -r requirements.txt
+
+python3 main.py
 
 ## 🛠️ Project Architecture
 ```text
